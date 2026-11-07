@@ -1,0 +1,16 @@
+.gradle/
+build/
+app/build/
+local.properties
+.idea/
+.project
+.settings/
+*.iml
+.DS_Store
+
+# Kunci tanda tangan release (jangan di-commit).
+keystore.properties
+keystore/*.jks
+
+# Disalin otomatis dari index.html oleh task syncWebAssets saat build.
+app/src/main/assets/index.html
