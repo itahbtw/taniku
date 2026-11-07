@@ -1104,7 +1104,7 @@
       // ============ STATE ============
       const STORAGE_KEY = "taniku_v1";
       const SEED_VERSION_KEY = "taniku_seed_version";
-      const SEED_VERSION = 9;
+      const SEED_VERSION = 10;
       const state = {
         currentPage: "home",
         selectedMusimId: null,
@@ -1115,51 +1115,10 @@
       // ============ SEED DATA ============
       function seedData() {
         return {
-          lahan: [
-            {
-              id: 1,
-              nama: "Kebun Cabai Wonorejo",
-              luas: 1406,
-              lokasi: "Wonorejo, Talun, Blitar",
-              contoh: true,
-            },
-          ],
-          musimTanam: [
-            {
-              id: 1,
-              lahanId: 1,
-              komoditas: "Cabai",
-              tglMulai: "2026-05-02",
-              tglSelesai: null,
-              status: "aktif",
-            },
-          ],
-          aktivitas: [
-            { id: 1, musimId: 1, tanggal: "2026-05-02", jenis: "Penanaman", sarana: "Benih cabai besar", jumlah: 8, satuan: "sachet", kategori: "Benih", nominal: 1200000, catatan: "Data contoh untuk uji tampilan" },
-            { id: 2, musimId: 1, tanggal: "2026-05-05", jenis: "Pemupukan", sarana: "Pupuk kandang", jumlah: 200, satuan: "kg", kategori: "Pupuk", nominal: 600000, catatan: "" },
-            { id: 3, musimId: 1, tanggal: "2026-05-12", jenis: "Pemupukan", sarana: "Pupuk NPK", jumlah: 50, satuan: "kg", kategori: "Pupuk", nominal: 750000, catatan: "" },
-            { id: 4, musimId: 1, tanggal: "2026-05-19", jenis: "Penyemprotan", sarana: "Pestisida", jumlah: 2, satuan: "liter", kategori: "Pestisida", nominal: 350000, catatan: "" },
-            { id: 5, musimId: 1, tanggal: "2026-06-10", jenis: "Pemupukan", sarana: "Pupuk NPK", jumlah: 50, satuan: "kg", kategori: "Pupuk", nominal: 750000, catatan: "" },
-            { id: 6, musimId: 1, tanggal: "2026-06-17", jenis: "Penyemprotan", sarana: "Pestisida", jumlah: 2, satuan: "liter", kategori: "Pestisida", nominal: 350000, catatan: "" },
-            { id: 7, musimId: 1, tanggal: "2026-07-01", jenis: "Pemupukan", sarana: "Pupuk NPK", jumlah: 50, satuan: "kg", kategori: "Pupuk", nominal: 750000, catatan: "" },
-            { id: 8, musimId: 1, tanggal: "2026-07-08", jenis: "Penyemprotan", sarana: "Pestisida", jumlah: 2, satuan: "liter", kategori: "Pestisida", nominal: 350000, catatan: "" },
-            { id: 9, musimId: 1, tanggal: "2026-07-29", jenis: "Penyemprotan", sarana: "Pestisida", jumlah: 2, satuan: "liter", kategori: "Pestisida", nominal: 350000, catatan: "" },
-            { id: 10, musimId: 1, tanggal: "2026-08-02", jenis: "Panen", sarana: "Tenaga kerja panen", jumlah: 1, satuan: "kali", kategori: "Tenaga kerja", nominal: 100000, catatan: "" },
-            { id: 11, musimId: 1, tanggal: "2026-08-06", jenis: "Panen", sarana: "Tenaga kerja panen", jumlah: 1, satuan: "kali", kategori: "Tenaga kerja", nominal: 100000, catatan: "" },
-            { id: 12, musimId: 1, tanggal: "2026-08-09", jenis: "Panen", sarana: "Tenaga kerja panen", jumlah: 1, satuan: "kali", kategori: "Tenaga kerja", nominal: 100000, catatan: "" },
-            { id: 13, musimId: 1, tanggal: "2026-08-13", jenis: "Panen", sarana: "Tenaga kerja panen", jumlah: 1, satuan: "kali", kategori: "Tenaga kerja", nominal: 100000, catatan: "" },
-            { id: 14, musimId: 1, tanggal: "2026-08-16", jenis: "Panen", sarana: "Tenaga kerja panen", jumlah: 1, satuan: "kali", kategori: "Tenaga kerja", nominal: 100000, catatan: "" },
-          ],
-          panen: [
-            { id: 1, musimId: 1, tglPanen: "2026-08-02", kuantitas: 30, satuan: "kg", tglJual: "2026-08-02", pembeli: "Tengkulak Wonorejo", hargaSatuan: 35000 },
-            { id: 2, musimId: 1, tglPanen: "2026-08-06", kuantitas: 28, satuan: "kg", tglJual: "2026-08-06", pembeli: "Tengkulak Wonorejo", hargaSatuan: 36000 },
-            { id: 3, musimId: 1, tglPanen: "2026-08-09", kuantitas: 31, satuan: "kg", tglJual: "2026-08-09", pembeli: "Tengkulak Wonorejo", hargaSatuan: 32000 },
-            { id: 4, musimId: 1, tglPanen: "2026-08-13", kuantitas: 25, satuan: "kg", tglJual: "2026-08-13", pembeli: "Tengkulak Wonorejo", hargaSatuan: 40000 },
-            { id: 5, musimId: 1, tglPanen: "2026-08-16", kuantitas: 27, satuan: "kg", tglJual: "2026-08-16", pembeli: "Tengkulak Wonorejo", hargaSatuan: 45000 },
-            { id: 6, musimId: 1, tglPanen: "2026-08-20", kuantitas: 26, satuan: "kg", tglJual: "2026-08-20", pembeli: "Tengkulak Wonorejo", hargaSatuan: 30000 },
-            { id: 7, musimId: 1, tglPanen: "2026-08-23", kuantitas: 29, satuan: "kg", tglJual: "2026-08-23", pembeli: "Tengkulak Wonorejo", hargaSatuan: 38000 },
-            { id: 8, musimId: 1, tglPanen: "2026-08-27", kuantitas: 28, satuan: "kg", tglJual: "2026-08-27", pembeli: "Tengkulak Wonorejo", hargaSatuan: 42000 },
-          ],
+          lahan: [],
+          musimTanam: [],
+          aktivitas: [],
+          panen: [],
         };
       }
 
@@ -1323,6 +1282,39 @@
                   catatan: "",
                 });
               });
+            }
+          }
+        }
+
+        if (v < 10) {
+          const hapusLahan = new Set(
+            data.lahan
+              .filter(
+                (l) =>
+                  l &&
+                  (l.contoh === true ||
+                    (l.nama === "Kebun Cabai Wonorejo" &&
+                      Number(l.luas) === 1406)),
+              )
+              .map((l) => l.id),
+          );
+          if (hapusLahan.size) {
+            const hapusMusim = new Set(
+              data.musimTanam
+                .filter((m) => m && hapusLahan.has(m.lahanId))
+                .map((m) => m.id),
+            );
+            data.lahan = data.lahan.filter((l) => !hapusLahan.has(l.id));
+            data.musimTanam = data.musimTanam.filter(
+              (m) => !hapusMusim.has(m.id),
+            );
+            data.aktivitas = data.aktivitas.filter(
+              (a) => !hapusMusim.has(a.musimId),
+            );
+            data.panen = data.panen.filter((p) => !hapusMusim.has(p.musimId));
+            const simpan = localStorage.getItem("taniku_active_musim");
+            if (simpan && hapusMusim.has(parseInt(simpan, 10))) {
+              localStorage.removeItem("taniku_active_musim");
             }
           }
         }

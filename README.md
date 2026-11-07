@@ -15,6 +15,8 @@ APK release tersedia di halaman
 - Catatan panen dan penjualan
 - Laporan laba-rugi (bisa dicetak lewat dialog print Android)
 - Data tersimpan lokal di WebView (`localStorage`), tanpa akun
+- Saat pertama dipasang, aplikasi dimulai tanpa data; pengguna menambahkan
+  lahan dan musim tanam sendiri
 
 ## Kebutuhan
 
