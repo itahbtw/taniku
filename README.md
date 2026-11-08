@@ -14,6 +14,7 @@ APK release tersedia di halaman
 - Catatan aktivitas dan biaya produksi
 - Catatan panen dan penjualan
 - Laporan laba-rugi (bisa dicetak lewat dialog print Android)
+- Ekspor dan impor cadangan data (file JSON) lewat dialog penyimpanan Android
 - Data tersimpan lokal di WebView (`localStorage`), tanpa akun
 - Saat pertama dipasang, aplikasi dimulai tanpa data; pengguna menambahkan
   lahan dan musim tanam sendiri
@@ -68,11 +69,19 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 ## Mengubah tampilan
 
 Edit `index.html` di folder ini, lalu build ulang. Task `syncWebAssets`
-otomatis menyalin file tersebut ke `app/src/main/assets/index.html` sebelum
-build, jadi tidak perlu menyalin manual.
+otomatis menyalin `index.html` dan `chart.umd.min.js` ke
+`app/src/main/assets/` sebelum build, jadi tidak perlu menyalin manual.
+
+Chart.js dimuat terpisah dan baru diambil saat halaman Laporan dibuka, sehingga
+proses start aplikasi tidak perlu mem-parse seluruh bundle grafik.
 
 ## Catatan
 
 - `local.properties` berisi lokasi Android SDK dan tidak perlu di-commit.
-- Menghapus data aplikasi akan mengembalikan data contoh (seed) Taniku.
+- Menghapus data aplikasi akan menghapus seluruh data Taniku di perangkat.
+  Gunakan **Laporan → Ekspor Cadangan** secara berkala dan simpan file JSON di
+  tempat aman.
 - Aplikasi sepenuhnya lokal: tidak ada akun, login, atau sinkronisasi server.
+- Build release memakai R8 (minify + resource shrink) dan tanpa izin jaringan.
+- Kunci JavaScript bridge (`TanikuAndroid`) dijaga lewat
+  `app/proguard-rules.pro` agar tetap bisa dipanggil setelah minifikasi.

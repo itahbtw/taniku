@@ -14,3 +14,4 @@ keystore/*.jks
 
 # Disalin otomatis dari index.html oleh task syncWebAssets saat build.
 app/src/main/assets/index.html
+app/src/main/assets/chart.umd.min.js

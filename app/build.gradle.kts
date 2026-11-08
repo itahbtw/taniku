@@ -19,8 +19,8 @@ android {
         applicationId = "com.taniku.app"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
     }
 
     signingConfigs {
@@ -36,7 +36,12 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
             signingConfig = signingConfigs.getByName("release")
         }
     }
@@ -53,6 +58,7 @@ dependencies {
 
 val syncWebAssets by tasks.registering(Copy::class) {
     from(rootProject.file("index.html"))
+    from(rootProject.file("chart.umd.min.js"))
     into(layout.projectDirectory.dir("src/main/assets"))
 }
 

@@ -3,9 +3,10 @@ package com.taniku.app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Insets;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.print.PrintManager;
@@ -27,13 +28,24 @@ import android.widget.LinearLayout;
 
 import androidx.webkit.WebViewAssetLoader;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
 public class MainActivity extends Activity {
 
     private static final String APP_URL =
             "https://appassets.androidplatform.net/assets/index.html";
+    private static final String APP_HOST = "appassets.androidplatform.net";
     private static final int GREEN_DARK = Color.parseColor("#1b5e20");
+    private static final int REQ_EXPORT = 1001;
+    private static final int REQ_IMPORT = 1002;
 
     private WebView webView;
+    private String pendingExportJson;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -62,15 +74,18 @@ public class MainActivity extends Activity {
         settings.setDatabaseEnabled(true);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
+        settings.setAllowFileAccessFromFileURLs(false);
+        settings.setAllowUniversalAccessFromFileURLs(false);
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(false);
         settings.setDisplayZoomControls(false);
+        settings.setSupportMultipleWindows(false);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
         settings.setTextZoom(100);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        settings.setMediaPlaybackRequiresUserGesture(false);
-        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        settings.setMediaPlaybackRequiresUserGesture(true);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
 
         final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
                 .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
@@ -81,6 +96,15 @@ public class MainActivity extends Activity {
             public WebResourceResponse shouldInterceptRequest(
                     WebView view, WebResourceRequest request) {
                 return assetLoader.shouldInterceptRequest(request.getUrl());
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Uri url = request.getUrl();
+                String path = url.getPath();
+                return !APP_HOST.equals(url.getHost())
+                        || path == null
+                        || !path.startsWith("/assets/");
             }
 
             @Override
@@ -205,6 +229,103 @@ public class MainActivity extends Activity {
                     manager.print(job, webView.createPrintDocumentAdapter(job), null);
                 }
             });
+        }
+
+        @JavascriptInterface
+        public void exportData(String json, String filename) {
+            runOnUiThread(() -> {
+                pendingExportJson = json;
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/json");
+                intent.putExtra(Intent.EXTRA_TITLE,
+                        filename == null || filename.isEmpty()
+                                ? "taniku-backup.json" : filename);
+                try {
+                    startActivityForResult(intent, REQ_EXPORT);
+                } catch (Exception e) {
+                    pendingExportJson = null;
+                    runJs("showToast('Tidak ada aplikasi penyimpan file','error')");
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void importData() {
+            runOnUiThread(() -> {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_MIME_TYPES,
+                        new String[]{"application/json", "text/plain", "application/octet-stream"});
+                try {
+                    startActivityForResult(intent, REQ_IMPORT);
+                } catch (Exception e) {
+                    runJs("showToast('Tidak ada aplikasi pemilih file','error')");
+                }
+            });
+        }
+    }
+
+    private void runJs(String script) {
+        runOnUiThread(() -> {
+            if (webView != null) {
+                webView.evaluateJavascript(script, null);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQ_EXPORT) {
+            String json = pendingExportJson;
+            pendingExportJson = null;
+            if (resultCode != RESULT_OK || data == null || data.getData() == null) {
+                return;
+            }
+            if (json == null) {
+                return;
+            }
+            try (OutputStream out =
+                         getContentResolver().openOutputStream(data.getData(), "wt")) {
+                if (out == null) {
+                    throw new IllegalStateException("No output stream");
+                }
+                out.write(json.getBytes(StandardCharsets.UTF_8));
+                out.flush();
+                runJs("showToast('Cadangan berhasil disimpan','success')");
+            } catch (Exception e) {
+                runJs("showToast('Gagal menyimpan cadangan','error')");
+            }
+            return;
+        }
+
+        if (requestCode == REQ_IMPORT) {
+            if (resultCode != RESULT_OK || data == null || data.getData() == null) {
+                return;
+            }
+            try (InputStream in = getContentResolver().openInputStream(data.getData())) {
+                if (in == null) {
+                    throw new IllegalStateException("No input stream");
+                }
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                byte[] chunk = new byte[8192];
+                int read;
+                int total = 0;
+                while ((read = in.read(chunk)) != -1) {
+                    total += read;
+                    if (total > 5 * 1024 * 1024) {
+                        throw new IllegalStateException("Backup file too large");
+                    }
+                    buffer.write(chunk, 0, read);
+                }
+                String text = buffer.toString(StandardCharsets.UTF_8.name());
+                runJs("window.tanikuImportData(" + JSONObject.quote(text) + ");");
+            } catch (Exception e) {
+                runJs("showToast('Gagal membaca file cadangan','error')");
+            }
         }
     }
 
