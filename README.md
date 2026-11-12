@@ -14,7 +14,8 @@ APK release tersedia di halaman
 - Catatan aktivitas dan biaya produksi
 - Catatan panen dan penjualan
 - Laporan laba-rugi (bisa dicetak lewat dialog print Android)
-- Ekspor dan impor cadangan data (file JSON) lewat dialog penyimpanan Android
+- Ekspor dan impor cadangan data (file JSON) lewat tombol cadangan di pojok
+  kanan atas header
 - Data tersimpan lokal di WebView (`localStorage`), tanpa akun
 - Saat pertama dipasang, aplikasi dimulai tanpa data; pengguna menambahkan
   lahan dan musim tanam sendiri
@@ -79,8 +80,8 @@ proses start aplikasi tidak perlu mem-parse seluruh bundle grafik.
 
 - `local.properties` berisi lokasi Android SDK dan tidak perlu di-commit.
 - Menghapus data aplikasi akan menghapus seluruh data Taniku di perangkat.
-  Gunakan **Laporan → Ekspor Cadangan** secara berkala dan simpan file JSON di
-  tempat aman.
+  Gunakan tombol **Cadangan Data** di pojok kanan atas header secara berkala
+  dan simpan file JSON di tempat aman.
 - Aplikasi sepenuhnya lokal: tidak ada akun, login, atau sinkronisasi server.
 - Build release memakai R8 (minify + resource shrink) dan tanpa izin jaringan.
 - Kunci JavaScript bridge (`TanikuAndroid`) dijaga lewat

@@ -64,17 +64,18 @@
         display: none !important;
       }
 
-      /* ===== Capil Logo (SVG) ===== */
-      .capil-svg {
+      /* ===== Tunas Logo (SVG) ===== */
+      .tunas-svg {
         display: block;
       }
-      .capil-brand {
-        width: 24px;
-        height: 24px;
+      .tunas-brand {
+        width: 28px;
+        height: 28px;
         display: inline-block;
         vertical-align: middle;
         margin-right: 6px;
         margin-top: -2px;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
       }
 
       /* ===== Buttons ===== */
@@ -157,6 +158,27 @@
         display: flex;
         align-items: center;
       }
+      .header-backup {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.14);
+        color: white;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      .header-backup:active {
+        background: rgba(255, 255, 255, 0.28);
+      }
+      .header-backup svg {
+        width: 18px;
+        height: 18px;
+      }
       .app-main {
         padding: 16px 16px 20px;
         max-width: 720px;
@@ -178,7 +200,7 @@
 
       /* ===== Cards ===== */
       .card {
-        background: var(--card);
+        background: white;
         border-radius: var(--radius);
         padding: 16px;
         box-shadow: var(--shadow);
@@ -833,103 +855,27 @@
     </style>
   </head>
   <body>
-    <!-- ===== SVG CAPIL (reusable, hidden template) ===== -->
+    <!-- ===== SVG TUNAS (reusable, hidden template) ===== -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <defs>
-        <g id="capil-icon">
-          <!-- Brim belakang (sebagian tertutup kerucut) -->
-          <ellipse
-            cx="50"
-            cy="70"
-            rx="46"
-            ry="9"
-            fill="#d4b483"
-            stroke="#6b4423"
-            stroke-width="2.5"
-          />
-          <!-- Kerucut capil -->
-          <path
-            d="M 50 12 L 22 68 L 78 68 Z"
-            fill="#e8c9a0"
-            stroke="#6b4423"
-            stroke-width="2.5"
-            stroke-linejoin="round"
-          />
-          <!-- Garis tenun horizontal -->
-          <line
-            x1="29"
-            y1="56"
-            x2="71"
-            y2="56"
-            stroke="#6b4423"
-            stroke-width="1.2"
-            opacity="0.45"
-          />
-          <line
-            x1="35"
-            y1="46"
-            x2="65"
-            y2="46"
-            stroke="#6b4423"
-            stroke-width="1.2"
-            opacity="0.45"
-          />
-          <line
-            x1="40"
-            y1="36"
-            x2="60"
-            y2="36"
-            stroke="#6b4423"
-            stroke-width="1.2"
-            opacity="0.45"
-          />
-          <line
-            x1="45"
-            y1="26"
-            x2="55"
-            y2="26"
-            stroke="#6b4423"
-            stroke-width="1.2"
-            opacity="0.45"
-          />
-          <!-- Garis tenun diagonal (vertikal) -->
-          <line
-            x1="36"
-            y1="30"
-            x2="42"
-            y2="64"
-            stroke="#6b4423"
-            stroke-width="0.9"
-            opacity="0.3"
-          />
-          <line
-            x1="50"
-            y1="20"
-            x2="50"
-            y2="64"
-            stroke="#6b4423"
-            stroke-width="0.9"
-            opacity="0.3"
-          />
-          <line
-            x1="64"
-            y1="30"
-            x2="58"
-            y2="64"
-            stroke="#6b4423"
-            stroke-width="0.9"
-            opacity="0.3"
-          />
-          <!-- Brim depan (outline) -->
-          <path
-            d="M 4 70 Q 50 82 96 70"
-            fill="none"
-            stroke="#6b4423"
-            stroke-width="2.5"
-          />
-          <!-- Knob atas -->
-          <circle cx="50" cy="12" r="2.8" fill="#6b4423" />
-        </g>
+        <linearGradient id="tunas-left-upper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#08A36C"/><stop offset=".5" stop-color="#1EA764"/><stop offset="1" stop-color="#1B714D"/></linearGradient>
+    <linearGradient id="tunas-left-lower" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0D8963"/><stop offset="1" stop-color="#0E5648"/></linearGradient>
+    <linearGradient id="tunas-right-upper" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9BDD4F"/><stop offset=".5" stop-color="#7BC94F"/><stop offset="1" stop-color="#25975C"/></linearGradient>
+    <linearGradient id="tunas-right-lower" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6ABE4B"/><stop offset=".5" stop-color="#4FAB4A"/><stop offset="1" stop-color="#117D4C"/></linearGradient>
+    <linearGradient id="tunas-stem-left" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9ADA4E"/><stop offset="1" stop-color="#3FAE5C"/></linearGradient>
+    <linearGradient id="tunas-stem-right" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#137A49"/><stop offset="1" stop-color="#1FBE62"/></linearGradient>
+    <!-- Ikon tunas: daun + batang di atas kotak putih -->
+    <g id="tunas-icon">
+      <rect width="512" height="512" rx="96" fill="#FFFFFF" stroke="#E6E8EA" stroke-width="3"/>
+      <g transform="translate(256 266) scale(1.26) translate(-256 -266)">
+        <rect x="233" y="244" width="23" height="138" fill="url(#tunas-stem-left)"/>
+        <rect x="256" y="244" width="23" height="138" fill="url(#tunas-stem-right)"/>
+        <path d="M127,158 C205,158 256,190 256,245 L233,252 Z" fill="url(#tunas-left-upper)"/>
+        <path d="M127,158 L233,252 C165,252 127,215 127,158 Z" fill="url(#tunas-left-lower)"/>
+        <path d="M385,158 C315,158 256,190 256,245 L279,252 Z" fill="url(#tunas-right-upper)"/>
+        <path d="M385,158 L279,252 C345,252 385,215 385,158 Z" fill="url(#tunas-right-lower)"/>
+      </g>
+    </g>
       </defs>
     </svg>
 
@@ -937,11 +883,24 @@
     <div id="app" class="app">
       <header class="app-header">
         <div class="header-brand">
-          <svg class="capil-svg capil-brand" viewBox="0 0 100 100">
-            <use href="#capil-icon" />
+          <svg class="tunas-svg tunas-brand" viewBox="0 0 512 512">
+            <use href="#tunas-icon" />
           </svg>
           Taniku
         </div>
+        <button
+          type="button"
+          class="header-backup"
+          onclick="openBackupModal()"
+          aria-label="Cadangan Data"
+          title="Cadangan Data"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </button>
       </header>
 
       <main class="app-main">
@@ -1037,21 +996,6 @@
             </button>
           </div>
           <div id="laporanPrintArea"></div>
-          <div class="card no-print" style="margin-top:12px;">
-            <div class="card-title">Cadangan Data</div>
-            <div class="card-sub" style="margin-bottom:12px;">
-              Simpan seluruh data ke file JSON atau pulihkan dari cadangan.
-              Data hanya tersimpan di perangkat ini.
-            </div>
-            <div style="display:flex; gap:8px;">
-              <button class="btn btn-outline btn-sm" style="flex:1;" onclick="exportBackup()">
-                Ekspor Cadangan
-              </button>
-              <button class="btn btn-outline btn-sm" style="flex:1;" onclick="importBackup()">
-                Impor Cadangan
-              </button>
-            </div>
-          </div>
         </section>
       </main>
 
@@ -1381,6 +1325,25 @@
       }
 
       // ============ BACKUP / RESTORE ============
+      function openBackupModal() {
+        openModal(
+          "Cadangan Data",
+          `
+    <div class="card-sub" style="margin-bottom:14px;">
+      Simpan seluruh data ke file JSON atau pulihkan dari cadangan.
+      Data hanya tersimpan di perangkat ini.
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button type="button" class="btn btn-outline" style="flex:1;" onclick="exportBackup()">
+        Ekspor Cadangan
+      </button>
+      <button type="button" class="btn btn-outline" style="flex:1;" onclick="importBackup()">
+        Impor Cadangan
+      </button>
+    </div>`,
+        );
+      }
+
       function exportBackup() {
         if (
           !window.TanikuAndroid ||
@@ -1390,6 +1353,7 @@
           return;
         }
         try {
+          closeModal();
           TanikuAndroid.exportData(
             JSON.stringify(state.data, null, 2),
             "taniku-backup-" + today() + ".json",
@@ -1443,12 +1407,8 @@
         } catch (e) {}
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
         localStorage.setItem(SEED_VERSION_KEY, String(SEED_VERSION));
-        renderHome();
-        renderLahan();
-        renderAktivitas();
-        renderPanen();
-        renderLaporan();
         showToast("Cadangan berhasil diimpor", "success");
+        navigate("home");
       }
 
       function nextId(key) {
@@ -2748,6 +2708,7 @@
       window.buatMusimDariSwitcher = buatMusimDariSwitcher;
       window.openLahanFilter = openLahanFilter;
       window.setFilterLahan = setFilterLahan;
+      window.openBackupModal = openBackupModal;
       window.exportBackup = exportBackup;
       window.importBackup = importBackup;
       window.tanikuImportData = tanikuImportData;
